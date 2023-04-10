@@ -5,11 +5,11 @@
 #include <HTTPClient.h>
 #include <string>
 
-String server = "http://192.168.0.101:3000/data";
+String server = "http://192.168.64.152:8000/data";
 
 void setupWifi() {
-  char* ssid = "Nishant";
-  char* password = "21182410";
+  char* ssid = "narzo50";
+  char* password = "12345678";
   WiFi.begin(ssid, password);
   Serial.println("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -70,5 +70,5 @@ void loop() {
   int64_t timestamp = duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
 
   sendDataToServer(timestamp);
-  delay(2000);
+  delay(10000);
 }

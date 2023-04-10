@@ -5,11 +5,9 @@ const config = require("dotenv").config;
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  host: "containers-us-west-90.railway.app",
-  port: 7283,
-  database: "railway",
-  user: "postgres",
-  password: "CvuADU9JY9HVyYcpG0b0",
+  connectionString:
+    "postgres://admin:PHicVIjxihzvKDVdxOEiFmQxqx7WZubC@dpg-cgpdu60u9tun42sud41g-a.singapore-postgres.render.com/poll_data?ssl=true",
+  idleTimeoutMillis: 0,
 });
 
 config();
@@ -18,7 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req, res) => {
-  const resp = await pool.query("SELECT * FROM data;");
+  const resp = await pool.query(
+    "SELECT * FROM data ORDER BY id DESC LIMIT 40;",
+  );
   res.send(resp.rows);
 });
 
@@ -33,10 +33,10 @@ app.post("/data", async (req, res) => {
   try {
     let { mq135, mq6, temp, hum } = req.body;
 
-    mq135 = calibrate(mq135, 0.06);
-    mq6 = calibrate(mq6, 0.06);
-    temp = calibrate(temp, 0.06);
-    hum = calibrate(hum, 0.06);
+    mq135 = calibrate(parseInt(mq135), 0.06);
+    mq6 = calibrate(parseInt(mq6), 0.06);
+    temp = calibrate(parseInt(temp), 0.06);
+    hum = calibrate(parseInt(hum), 0.06);
 
     const resp = await pool.query(
       "INSERT INTO data(timestamp, mq135, mq6, temp, hum) VALUES ($1, $2, $3, $4, $5)",
@@ -49,7 +49,7 @@ app.post("/data", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log("server listening on port 3000!");
   pool
     .connect()
