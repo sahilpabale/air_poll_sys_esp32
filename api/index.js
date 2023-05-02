@@ -35,7 +35,7 @@ app.post("/data", async (req, res) => {
 
     mq135 = calibrate(parseInt(mq135), 0.06);
     mq6 = calibrate(parseInt(mq6), 0.06);
-    temp = calibrate(parseInt(temp), 0.06);
+    temp = calibrate(parseInt(temp), 0.06) + 1;
     hum = calibrate(parseInt(hum), 0.06);
 
     const resp = await pool.query(
@@ -50,7 +50,7 @@ app.post("/data", async (req, res) => {
 });
 
 app.listen(8000, () => {
-  console.log("server listening on port 3000!");
+  console.log("server listening on port 8000!");
   pool
     .connect()
     .then(() => console.log("db connected"))

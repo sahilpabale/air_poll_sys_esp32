@@ -85,7 +85,7 @@ function App() {
   const [tempAvg, setTempAvg] = useState(0);
   useEffect(() => {
     async function fetchData() {
-      const data = await axios.get("http://localhost:8000/");
+      const data = await axios.get("https://air-poll-api.onrender.com/");
       console.log(data.data);
       setTempChartData((prev) => {
         return {

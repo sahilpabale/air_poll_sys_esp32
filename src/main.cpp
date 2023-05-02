@@ -5,7 +5,7 @@
 #include <HTTPClient.h>
 #include <string>
 
-String server = "http://192.168.64.152:8000/data";
+String server = "http://192.168.64.206:8000/data";
 
 void setupWifi() {
   char* ssid = "narzo50";
@@ -70,5 +70,5 @@ void loop() {
   int64_t timestamp = duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
 
   sendDataToServer(timestamp);
-  delay(10000);
+  delay(20000);
 }
